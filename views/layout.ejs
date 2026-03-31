@@ -65,13 +65,32 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item">
                         <a class="nav-link" href="/">Inicio</a>
                     </li>
+                    <% if (user && (user.role === 'veterinario' || user.role === 'admin')) { %>
                     <li class="nav-item">
                         <a class="nav-link" href="/create">Agendar Cita</a>
                     </li>
+                    <% } %>
+                    <% if (user) { %>
+                    <li class="nav-item ms-2">
+                        <span class="badge rounded-pill text-bg-light border me-1" style="font-size:.8rem;">
+                            <%= user.role === 'veterinario' ? '🩺' : user.role === 'admin' ? '⚙️' : '📋' %>
+                            <%= user.full_name %>
+                        </span>
+                    </li>
+                    <li class="nav-item">
+                        <form action="/logout" method="POST" class="d-inline">
+                            <button type="submit" class="btn btn-outline-secondary btn-sm">Cerrar sesión</button>
+                        </form>
+                    </li>
+                    <% } else { %>
+                    <li class="nav-item ms-2">
+                        <a class="btn btn-primary btn-sm" href="/login">Iniciar Sesión</a>
+                    </li>
+                    <% } %>
                 </ul>
             </div>
         </div>
