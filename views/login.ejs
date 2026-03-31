@@ -1,44 +1,101 @@
-<div class="row justify-content-center mt-5">
-    <div class="col-md-5 col-lg-4">
-        <div class="card p-4 shadow-sm">
-            <div class="text-center mb-4">
-                <span style="font-size:2.5rem;">🐾</span>
-                <h4 class="fw-semibold mt-2" style="color:#6c5ce7;">PeluCan Spa</h4>
-                <p class="text-muted small">Acceso al sistema de gestión</p>
+<div class="row min-vh-75 align-items-center justify-content-center g-0" style="min-height:75vh;">
+
+    <!-- Left panel (desktop) -->
+    <div class="col-lg-5 d-none d-lg-flex flex-column align-items-center justify-content-center p-5"
+         style="background:linear-gradient(145deg,var(--primary) 0%,#a29bfe 100%);
+                border-radius:var(--radius);min-height:520px;color:white;">
+        <div style="font-size:4rem;margin-bottom:1rem;">🐾</div>
+        <h2 class="fw-bold mb-2" style="font-size:1.6rem;">PeluCan Spa</h2>
+        <p class="text-center opacity-85 mb-4" style="font-size:.95rem;max-width:260px;">
+            Sistema de gestión de citas y historiales médicos veterinarios
+        </p>
+        <div class="d-flex flex-column gap-2 w-100" style="max-width:220px;">
+            <div class="d-flex align-items-center gap-2 opacity-85" style="font-size:.85rem;">
+                <i class="bi bi-shield-lock-fill fs-5"></i>
+                <span>Acceso por roles</span>
+            </div>
+            <div class="d-flex align-items-center gap-2 opacity-85" style="font-size:.85rem;">
+                <i class="bi bi-file-medical-fill fs-5"></i>
+                <span>Historial médico seguro</span>
+            </div>
+            <div class="d-flex align-items-center gap-2 opacity-85" style="font-size:.85rem;">
+                <i class="bi bi-calendar2-check-fill fs-5"></i>
+                <span>Gestión de citas</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right panel / form -->
+    <div class="col-12 col-md-8 col-lg-5">
+        <div class="card border-0 shadow-lg p-4 p-md-5 mx-auto" style="max-width:420px;">
+
+            <!-- Mobile logo -->
+            <div class="text-center d-lg-none mb-4">
+                <div style="font-size:2.5rem;">🐾</div>
+                <h5 class="fw-bold mt-1" style="color:var(--primary);">PeluCan Spa</h5>
             </div>
 
+            <h4 class="fw-bold mb-1">Bienvenido de nuevo</h4>
+            <p class="text-muted mb-4" style="font-size:.9rem;">Ingresa tus credenciales para continuar</p>
+
             <% if (error) { %>
-                <div class="alert alert-danger alert-dismissible fade show py-2" role="alert">
-                    <%= error %>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
+            <div class="alert alert-danger d-flex align-items-center gap-2 py-2 mb-3" role="alert">
+                <i class="bi bi-exclamation-circle-fill"></i>
+                <span><%= error %></span>
+            </div>
             <% } %>
 
             <form action="/login" method="POST">
                 <div class="mb-3">
-                    <label for="username" class="form-label fw-semibold">Usuario</label>
-                    <input type="text" class="form-control" id="username" name="username"
-                           placeholder="Ingresa tu usuario" required autofocus>
+                    <label for="username" class="form-label">Usuario</label>
+                    <div class="input-group">
+                        <span class="input-group-text" style="border:1.5px solid var(--border);border-right:none;background:var(--bg);">
+                            <i class="bi bi-person" style="color:var(--primary);"></i>
+                        </span>
+                        <input type="text" class="form-control" id="username" name="username"
+                               placeholder="Tu nombre de usuario" required autofocus
+                               style="border-left:none;">
+                    </div>
                 </div>
                 <div class="mb-4">
-                    <label for="password" class="form-label fw-semibold">Contraseña</label>
-                    <input type="password" class="form-control" id="password" name="password"
-                           placeholder="••••••••" required>
+                    <label for="password" class="form-label">Contraseña</label>
+                    <div class="input-group">
+                        <span class="input-group-text" style="border:1.5px solid var(--border);border-right:none;background:var(--bg);">
+                            <i class="bi bi-lock" style="color:var(--primary);"></i>
+                        </span>
+                        <input type="password" class="form-control" id="password" name="password"
+                               placeholder="••••••••" required
+                               style="border-left:none;">
+                    </div>
                 </div>
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                <div class="d-grid mb-4">
+                    <button type="submit" class="btn btn-primary py-2">
+                        <i class="bi bi-arrow-right-circle me-1"></i>Iniciar Sesión
+                    </button>
                 </div>
             </form>
 
-            <hr class="my-4">
-            <p class="text-muted small text-center mb-1"><strong>Usuarios de prueba:</strong></p>
-            <table class="table table-sm table-borderless text-muted small">
-                <tbody>
-                    <tr><td><code>admin</code></td><td><code>admin123</code></td><td>Administrador</td></tr>
-                    <tr><td><code>dr_garcia</code></td><td><code>vet123</code></td><td>Veterinario</td></tr>
-                    <tr><td><code>recepcion</code></td><td><code>rec123</code></td><td>Recepcionista</td></tr>
-                </tbody>
-            </table>
+            <!-- Demo credentials -->
+            <details class="text-muted" style="font-size:.82rem;">
+                <summary class="fw-semibold" style="cursor:pointer;color:var(--primary);">
+                    Credenciales de prueba
+                </summary>
+                <div class="mt-2 rounded-3 p-3" style="background:var(--bg);border:1px solid var(--border);">
+                    <div class="d-flex justify-content-between mb-1">
+                        <span><i class="bi bi-gear-fill me-1" style="color:var(--primary);"></i><code>admin</code> / <code>admin123</code></span>
+                        <span class="role-tag role-admin">admin</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-1">
+                        <span><i class="bi bi-bandaid-fill me-1" style="color:var(--success);"></i><code>dr_garcia</code> / <code>vet123</code></span>
+                        <span class="role-tag role-veterinario">vet</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span><i class="bi bi-clipboard me-1" style="color:var(--warning);"></i><code>recepcion</code> / <code>rec123</code></span>
+                        <span class="role-tag role-recepcionista">recep.</span>
+                    </div>
+                </div>
+            </details>
+
         </div>
     </div>
 </div>

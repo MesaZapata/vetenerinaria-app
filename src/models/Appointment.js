@@ -10,9 +10,9 @@ const Appointment = {
         db.all(sql, [], callback);
     },
 
-    create({ pet_id, service, appointment_date }, callback) {
-        const sql = 'INSERT INTO appointments (pet_id, service, appointment_date) VALUES (?, ?, ?)';
-        db.run(sql, [pet_id, service, appointment_date], callback);
+    create({ pet_id, service, appointment_date, medical_notes }, callback) {
+        const sql = 'INSERT INTO appointments (pet_id, service, appointment_date, medical_notes) VALUES (?, ?, ?, ?)';
+        db.run(sql, [pet_id, service, appointment_date, medical_notes || ''], callback);
     },
 
     deleteById(id, callback) {

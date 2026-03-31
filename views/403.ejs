@@ -1,14 +1,24 @@
-<div class="row justify-content-center mt-5">
-    <div class="col-md-6 text-center">
+<div class="row justify-content-center align-items-center" style="min-height:60vh;">
+    <div class="col-md-6 col-lg-5 text-center">
         <div class="card p-5">
-            <span style="font-size:4rem;">🚫</span>
-            <h2 class="fw-bold mt-3" style="color:#6c5ce7;">Acceso Denegado</h2>
-            <p class="text-muted mt-2">
-                No tienes permisos para realizar esta acción.<br>
-                Solo los <strong>Veterinarios</strong> pueden editar o crear historiales médicos.
+            <div style="font-size:4.5rem;line-height:1;margin-bottom:1rem;">🚫</div>
+            <h2 class="fw-bold mb-2" style="color:var(--primary);">Acceso Denegado</h2>
+            <p class="text-muted mb-1">No tienes permisos para realizar esta acción.</p>
+            <p class="text-muted mb-4" style="font-size:.9rem;">
+                Solo los usuarios con rol
+                <span class="role-tag role-veterinario mx-1">veterinario</span> o
+                <span class="role-tag role-admin mx-1">admin</span>
+                pueden editar o crear historiales médicos.
             </p>
-            <div class="mt-4">
-                <a href="/" class="btn btn-primary">Volver al Panel</a>
+            <div class="d-flex gap-2 justify-content-center">
+                <a href="/" class="btn btn-primary px-4">
+                    <i class="bi bi-house me-1"></i>Ir al Panel
+                </a>
+                <% if (!user) { %>
+                <a href="/login" class="btn btn-outline-secondary px-4">
+                    <i class="bi bi-lock me-1"></i>Iniciar Sesión
+                </a>
+                <% } %>
             </div>
         </div>
     </div>

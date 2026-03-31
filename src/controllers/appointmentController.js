@@ -20,8 +20,8 @@ exports.getCreateForm = (req, res) => {
 };
 
 exports.createAppointment = (req, res) => {
-    const { pet_id, service, appointment_date } = req.body;
-    Appointment.create({ pet_id, service, appointment_date }, function (err) {
+    const { pet_id, service, appointment_date, medical_notes } = req.body;
+    Appointment.create({ pet_id, service, appointment_date, medical_notes }, function (err) {
         if (err) return res.status(500).send(err.message);
         res.redirect('/');
     });

@@ -1,42 +1,129 @@
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="h2">Panel de Citas</h1>
-    <a href="/create" class="btn btn-primary">Nueva Cita</a>
+<!-- Page header -->
+<div class="page-header d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
+    <div>
+        <h1 class="h3 mb-1"><i class="bi bi-calendar2-week me-2"></i>Panel de Citas</h1>
+        <p>Historial y gestión de citas veterinarias</p>
+    </div>
+    <% if (user && (user.role === 'veterinario' || user.role === 'admin')) { %>
+    <a href="/create" class="btn btn-light fw-semibold" style="color:var(--primary);">
+        <i class="bi bi-plus-circle me-1"></i>Nueva Cita
+    </a>
+    <% } %>
 </div>
 
-<div class="row">
-    <% if (appointments.length===0) { %>
-        <div class="col-12 text-center py-5">
-            <p class="text-muted">No hay citas programadas.</p>
+<!-- Stats bar -->
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+        <div class="card p-3 text-center">
+            <div class="fs-3 fw-bold" style="color:var(--primary);"><%= appointments.length %></div>
+            <div class="text-muted small">Total citas</div>
         </div>
-        <% } else { %>
-            <% appointments.forEach(app=> { %>
-                <div class="col-md-6 col-lg-4 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <h5 class="card-title text-primary">
-                                    <%= app.pet_name %>
-                                </h5>
-                                <span class="badge bg-soft-primary text-primary" style="background-color: #e0e0ff;">
-                                    <%= app.status %>
-                                </span>
-                            </div>
-                            <p class="card-text mb-1"><strong>Dueño:</strong>
-                                <%= app.owner_name %>
-                            </p>
-                            <p class="card-text mb-1"><strong>Servicio:</strong>
-                                <%= app.service %>
-                            </p>
-                            <p class="card-text mb-3"><strong>Fecha:</strong>
-                                <%= app.appointment_date %>
-                            </p>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card p-3 text-center">
+            <div class="fs-3 fw-bold" style="color:var(--success);">
+                <%= appointments.filter(a => a.status === 'Scheduled').length %>
+            </div>
+            <div class="text-muted small">Programadas</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card p-3 text-center">
+            <div class="fs-3 fw-bold" style="color:var(--warning);">
+                <%= new Set(appointments.map(a => a.pet_name)).size %>
+            </div>
+            <div class="text-muted small">Mascotas</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card p-3 text-center">
+            <div class="fs-3 fw-bold" style="color:var(--accent);">
+                <%= new Set(appointments.map(a => a.owner_name)).size %>
+            </div>
+            <div class="text-muted small">Dueños</div>
+        </div>
+    </div>
+</div>
 
-                            <form action="/delete/<%= app.id %>" method="POST"
-                                onsubmit="return confirm('¿Eliminar esta cita?')">
-                                <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
-                            </form>
+<!-- Appointment cards -->
+<% if (appointments.length === 0) { %>
+<div class="card p-5 text-center">
+    <div style="font-size:3.5rem;">📭</div>
+    <h5 class="mt-3 text-muted">No hay citas programadas</h5>
+    <% if (user && (user.role === 'veterinario' || user.role === 'admin')) { %>
+    <a href="/create" class="btn btn-primary mt-3 px-4">Crear primera cita</a>
+    <% } %>
+</div>
+<% } else { %>
+<div class="row g-3">
+    <% appointments.forEach(appt => { %>
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100">
+            <!-- Card top accent -->
+            <div style="height:5px;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:var(--radius) var(--radius) 0 0;"></div>
+            <div class="card-body p-4">
+
+                <!-- Header row -->
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div class="d-flex align-items-center gap-2">
+                        <div style="width:40px;height:40px;background:var(--primary-soft);border-radius:10px;
+                                    display:flex;align-items:center;justify-content:center;font-size:1.3rem;">
+                            🐶
+                        </div>
+                        <div>
+                            <div class="fw-bold" style="font-size:1rem;"><%= appt.pet_name %></div>
+                            <div class="text-muted" style="font-size:.8rem;">
+                                <i class="bi bi-person me-1"></i><%= appt.owner_name %>
+                            </div>
                         </div>
                     </div>
+                    <span class="badge rounded-pill"
+                          style="background:var(--primary-soft);color:var(--primary);font-size:.72rem;font-weight:600;">
+                        <%= appt.status %>
+                    </span>
                 </div>
-                <% }) %>
+
+                <!-- Details -->
+                <div class="d-flex flex-column gap-2 mb-3">
+                    <div class="d-flex align-items-center gap-2" style="font-size:.88rem;">
+                        <i class="bi bi-scissors" style="color:var(--primary);width:16px;"></i>
+                        <span><strong>Servicio:</strong> <%= appt.service %></span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2" style="font-size:.88rem;">
+                        <i class="bi bi-calendar-event" style="color:var(--primary);width:16px;"></i>
+                        <span><strong>Fecha:</strong> <%= appt.appointment_date %></span>
+                    </div>
+                    <% if (appt.medical_notes) { %>
+                    <div class="d-flex align-items-start gap-2" style="font-size:.88rem;">
+                        <i class="bi bi-file-medical" style="color:var(--success);width:16px;margin-top:2px;"></i>
+                        <span><strong>Notas:</strong> <em><%= appt.medical_notes %></em></span>
+                    </div>
                     <% } %>
+                </div>
+
+                <!-- Footer actions -->
+                <% if (user) { %>
+                <div class="border-top pt-3 mt-auto">
+                    <form action="/delete/<%= appt.id %>" method="POST"
+                          onsubmit="return confirm('¿Eliminar la cita de <%= appt.pet_name %>?')">
+                        <button type="submit" class="btn btn-sm w-100"
+                                style="background:#fff0ee;color:var(--danger);border:1.5px solid #ffd9d3;font-weight:600;border-radius:var(--radius-sm);">
+                            <i class="bi bi-trash me-1"></i>Eliminar cita
+                        </button>
+                    </form>
+                </div>
+                <% } else { %>
+                <div class="border-top pt-3 text-center">
+                    <small class="text-muted">
+                        <i class="bi bi-lock me-1"></i>
+                        <a href="/login" style="color:var(--primary);">Inicia sesión</a> para gestionar
+                    </small>
+                </div>
+                <% } %>
+
+            </div>
+        </div>
+    </div>
+    <% }) %>
+</div>
+<% } %>
