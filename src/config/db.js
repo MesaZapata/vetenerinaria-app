@@ -26,6 +26,9 @@ db.serialize(() => {
         service TEXT NOT NULL,
         appointment_date TEXT NOT NULL,
         medical_notes TEXT DEFAULT '',
+        diagnosis TEXT DEFAULT '',
+        weight REAL,
+        prescribed_medicine TEXT DEFAULT '',
         status TEXT DEFAULT 'Scheduled',
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (pet_id) REFERENCES pets(id)
@@ -45,8 +48,10 @@ db.serialize(() => {
     db.run("INSERT INTO owners (name) VALUES ('Maria García')");
     db.run("INSERT INTO pets (name, owner_id) VALUES ('Rex', 1)");
     db.run("INSERT INTO pets (name, owner_id) VALUES ('Luna', 2)");
-    db.run("INSERT INTO appointments (pet_id, service, appointment_date, medical_notes) VALUES (1, 'Corte de Pelo', '2026-02-25 10:00', 'Sin alergias conocidas')");
-    db.run("INSERT INTO appointments (pet_id, service, appointment_date, medical_notes) VALUES (2, 'Baño y Limpieza', '2026-02-25 11:30', 'Piel sensible')");
+    db.run("INSERT INTO appointments (pet_id, service, appointment_date, medical_notes, diagnosis, weight, prescribed_medicine) VALUES (1, 'Revisión General', '2026-02-25 10:00', 'Sin alergias conocidas', 'Paciente sano, vacunas al día', 12.5, 'Desparasitante oral cada 3 meses')");
+    db.run("INSERT INTO appointments (pet_id, service, appointment_date, medical_notes, diagnosis, weight, prescribed_medicine) VALUES (2, 'Consulta Dermatológica', '2026-02-25 11:30', 'Piel sensible', 'Dermatitis leve por contacto', 8.2, 'Shampoo medicado 2 veces/semana')");
+    db.run("INSERT INTO appointments (pet_id, service, appointment_date, medical_notes, diagnosis, weight, prescribed_medicine) VALUES (1, 'Vacunación', '2026-03-10 09:00', 'Refuerzo anual', 'Aplicación de refuerzo polivalente', 12.7, 'Ninguna')");
+    db.run("INSERT INTO appointments (pet_id, service, appointment_date, medical_notes, diagnosis, weight, prescribed_medicine) VALUES (2, 'Control de Peso', '2026-03-15 14:00', 'Seguimiento dermatitis', 'Mejoría notable, piel sin irritación', 8.5, 'Continuar shampoo medicado 1 vez/semana')");
 
     // Usuarios de prueba
     db.run(`INSERT INTO users (username, password, full_name, role) VALUES ('admin', ?, 'Administrador', 'admin')`, [adminHash]);

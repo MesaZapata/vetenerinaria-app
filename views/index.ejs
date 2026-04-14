@@ -93,6 +93,24 @@
                         <i class="bi bi-calendar-event" style="color:var(--primary);width:16px;"></i>
                         <span><strong>Fecha:</strong> <%= appt.appointment_date %></span>
                     </div>
+                    <% if (appt.diagnosis) { %>
+                    <div class="d-flex align-items-start gap-2" style="font-size:.88rem;">
+                        <i class="bi bi-clipboard2-pulse" style="color:var(--danger);width:16px;margin-top:2px;"></i>
+                        <span><strong>Diagnóstico:</strong> <em><%= appt.diagnosis %></em></span>
+                    </div>
+                    <% } %>
+                    <% if (appt.weight) { %>
+                    <div class="d-flex align-items-center gap-2" style="font-size:.88rem;">
+                        <i class="bi bi-speedometer" style="color:var(--warning);width:16px;"></i>
+                        <span><strong>Peso:</strong> <%= appt.weight %> kg</span>
+                    </div>
+                    <% } %>
+                    <% if (appt.prescribed_medicine) { %>
+                    <div class="d-flex align-items-start gap-2" style="font-size:.88rem;">
+                        <i class="bi bi-capsule" style="color:var(--accent);width:16px;margin-top:2px;"></i>
+                        <span><strong>Medicina:</strong> <em><%= appt.prescribed_medicine %></em></span>
+                    </div>
+                    <% } %>
                     <% if (appt.medical_notes) { %>
                     <div class="d-flex align-items-start gap-2" style="font-size:.88rem;">
                         <i class="bi bi-file-medical" style="color:var(--success);width:16px;margin-top:2px;"></i>

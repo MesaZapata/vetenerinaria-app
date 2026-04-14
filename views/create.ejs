@@ -59,6 +59,33 @@
                                   rows="3" placeholder="Alergias, condiciones previas, observaciones…"></textarea>
                     </div>
 
+                    <!-- Diagnóstico -->
+                    <div class="mb-4">
+                        <label for="diagnosis" class="form-label">
+                            <i class="bi bi-clipboard2-pulse me-1" style="color:var(--danger);"></i>Diagnóstico
+                        </label>
+                        <textarea class="form-control" id="diagnosis" name="diagnosis"
+                                  rows="2" placeholder="Diagnóstico del paciente…"></textarea>
+                    </div>
+
+                    <!-- Peso y Medicina -->
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <label for="weight" class="form-label">
+                                <i class="bi bi-speedometer me-1" style="color:var(--warning);"></i>Peso (kg)
+                            </label>
+                            <input type="number" class="form-control" id="weight" name="weight"
+                                   step="0.1" min="0" placeholder="Ej: 12.5">
+                        </div>
+                        <div class="col-md-8">
+                            <label for="prescribed_medicine" class="form-label">
+                                <i class="bi bi-capsule me-1" style="color:var(--accent);"></i>Medicina Recetada
+                            </label>
+                            <input type="text" class="form-control" id="prescribed_medicine" name="prescribed_medicine"
+                                   placeholder="Medicamentos recetados…">
+                        </div>
+                    </div>
+
                     <!-- Fecha -->
                     <div class="mb-4">
                         <label for="appointment_date" class="form-label">
