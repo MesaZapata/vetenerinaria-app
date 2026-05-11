@@ -2,6 +2,9 @@
   "name": "actu-mant-soft-26-1",
   "version": "1.0.0",
   "main": "index.js",
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,11 +15,12 @@
   "description": "",
   "dependencies": {
     "bcryptjs": "^3.0.3",
+    "better-sqlite3": "^11.5.0",
+    "cookie-session": "^2.1.0",
     "ejs": "^4.0.1",
     "express": "^5.2.1",
     "express-ejs-layouts": "^2.5.1",
-    "express-session": "^1.19.0",
     "morgan": "^1.10.1",
-    "sqlite3": "^5.1.7"
+    "serverless-http": "^3.2.0"
   }
 }
