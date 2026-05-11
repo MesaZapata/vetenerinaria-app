@@ -9,7 +9,9 @@ const petRoutes = require('./routes/petRoutes');
 
 const app = express();
 
-app.set('views', path.join(__dirname, '..', 'views'));
+const projectRoot = process.cwd();
+
+app.set('views', path.join(projectRoot, 'views'));
 app.set('view engine', 'ejs');
 app.use(expressLayouts);
 app.set('layout', 'layout');
@@ -17,7 +19,7 @@ app.set('layout', 'layout');
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use(express.static(path.join(projectRoot, 'public')));
 
 app.use(cookieSession({
     name: 'pelucan_session',
