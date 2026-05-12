@@ -1,0 +1,66 @@
+<!-- Page header -->
+<div class="page-header mb-4">
+    <div class="d-flex align-items-center gap-2 mb-1">
+        <a href="/" class="text-white opacity-75 text-decoration-none" style="font-size:.9rem;">
+            <i class="bi bi-arrow-left me-1"></i>Volver al panel
+        </a>
+    </div>
+    <h1 class="h3 mb-1"><i class="bi bi-plus-circle me-2"></i>Nueva Mascota</h1>
+    <p>Registrá un nuevo paciente asociándolo a un dueño existente.</p>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8">
+        <div class="card">
+            <div class="card-body p-4">
+
+                <% if (error) { %>
+                <div class="alert alert-danger d-flex align-items-center gap-2 mb-4" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    <div><%= error %></div>
+                </div>
+                <% } %>
+
+                <form action="/pets/new" method="POST">
+
+                    <div class="mb-4">
+                        <label for="name" class="form-label">
+                            <i class="bi bi-heart me-1" style="color:var(--accent);"></i>Nombre de la mascota
+                        </label>
+                        <input type="text" class="form-control" id="name" name="name"
+                               value="<%= values.name || '' %>"
+                               placeholder="Ej: Rex, Luna, Toby…"
+                               required maxlength="60">
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="owner_id" class="form-label">
+                            <i class="bi bi-person me-1" style="color:var(--primary);"></i>Dueño
+                        </label>
+                        <select class="form-select" id="owner_id" name="owner_id" required>
+                            <option value="" disabled <%= !values.owner_id ? 'selected' : '' %>>Seleccioná un dueño…</option>
+                            <% owners.forEach(owner => { %>
+                            <option value="<%= owner.id %>" <%= String(values.owner_id) === String(owner.id) ? 'selected' : '' %>>
+                                <%= owner.name %>
+                            </option>
+                            <% }) %>
+                        </select>
+                        <% if (owners.length === 0) { %>
+                        <div class="form-text text-danger mt-2">
+                            <i class="bi bi-exclamation-circle me-1"></i>
+                            No hay dueños registrados. Pedile a un administrador que cargue al menos uno antes de continuar.
+                        </div>
+                        <% } %>
+                    </div>
+
+                    <div class="d-flex gap-2 justify-content-end border-top pt-4 mt-2">
+                        <a href="/" class="btn btn-outline-secondary px-4">Cancelar</a>
+                        <button type="submit" class="btn btn-primary px-5" <%= owners.length === 0 ? 'disabled' : '' %>>
+                            <i class="bi bi-check2 me-1"></i>Guardar Mascota
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

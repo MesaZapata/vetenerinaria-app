@@ -1,26 +1,52 @@
-const db = require('../config/db');
+const supabase = require('../config/db');
 
 const Pet = {
-    findAll() {
-        return db.prepare('SELECT * FROM pets').all();
+    async findAll() {
+        const { data, error } = await supabase
+            .from('pets')
+            .select('*')
+            .order('id', { ascending: true });
+
+        if (error) throw error;
+        return data;
     },
 
-    findById(id) {
-        return db.prepare(`
-            SELECT p.*, o.name AS owner_name
-            FROM pets p
-            JOIN owners o ON p.owner_id = o.id
-            WHERE p.id = ?
-        `).get(id);
+    async findById(id) {
+        const { data, error } = await supabase
+            .from('pets')
+            .select('*, owners(name)')
+            .eq('id', id)
+            .maybeSingle();
+
+        if (error) throw error;
+        if (!data) return null;
+
+        const { owners, ...pet } = data;
+        return { ...pet, owner_name: owners ? owners.name : null };
     },
 
-    findAllWithOwner() {
-        return db.prepare(`
-            SELECT p.*, o.name AS owner_name
-            FROM pets p
-            JOIN owners o ON p.owner_id = o.id
-            ORDER BY p.name ASC
-        `).all();
+    async findAllWithOwner() {
+        const { data, error } = await supabase
+            .from('pets')
+            .select('*, owners(name)')
+            .order('name', { ascending: true });
+
+        if (error) throw error;
+        return data.map(({ owners, ...pet }) => ({
+            ...pet,
+            owner_name: owners ? owners.name : null
+        }));
+    },
+
+    async create({ name, owner_id }) {
+        const { data, error } = await supabase
+            .from('pets')
+            .insert({ name, owner_id })
+            .select()
+            .single();
+
+        if (error) throw error;
+        return data;
     }
 };
 

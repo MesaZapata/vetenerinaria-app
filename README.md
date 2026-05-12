@@ -2,7 +2,14 @@
 
 1. Tener Node.js LTS (20.x).
 2. `npm install`
-3. `npm start` → http://localhost:3000
+3. Crear archivo `.env` en la raíz con:
+   ```
+   SUPABASE_URL=https://<tu-project-ref>.supabase.co
+   SUPABASE_SERVICE_ROLE_KEY=<tu-service-role-key>
+   SESSION_SECRET=<string aleatorio largo>
+   ```
+4. Correr el schema en Supabase: pegá `supabase/schema.sql` en **Supabase Studio → SQL Editor → Run** (una sola vez).
+5. `npm start` → http://localhost:3000
 
 ## Despliegue en Netlify (CI/CD)
 
@@ -14,7 +21,9 @@ Project configuration → Build & deploy → Environment variables, agregar:
 
 | Variable | Valor | Notas |
 |---|---|---|
-| `SESSION_SECRET` | string aleatorio largo | Firma las cookies de sesión. Generar con `openssl rand -hex 32` |
+| `SUPABASE_URL` | `https://<project-ref>.supabase.co` | URL del proyecto Supabase |
+| `SUPABASE_SERVICE_ROLE_KEY` | service_role key (no la anon) | Project Settings → API → service_role. **Es secreta** |
+| `SESSION_SECRET` | string aleatorio largo | Firma las cookies. Generar con `openssl rand -hex 32` |
 
 El resto (build command, publish dir, functions dir) viene de `netlify.toml`, no hace falta tocar nada en la UI.
 
@@ -23,7 +32,7 @@ El resto (build command, publish dir, functions dir) viene de `netlify.toml`, no
 - `netlify.toml` declara la config (build, redirects, functions).
 - `netlify/functions/server.js` envuelve la app Express con `serverless-http` y la expone como Netlify Function.
 - Todo el tráfico HTTP se redirige (rewrite) a la function via `/*` → `/.netlify/functions/server/:splat`.
-- La base de datos es **SQLite en memoria**: se reinicia con cada cold start de la function. Los datos seed (usuarios admin/vet/recepción, mascotas, citas) siempre están disponibles.
+- La base de datos es **Supabase (Postgres)**. La app habla con Supabase vía `@supabase/supabase-js` (PostgREST), usando la **service_role key** server-side. Los datos persisten entre invocaciones.
 
 ### Credenciales de prueba
 
@@ -31,6 +40,4 @@ El resto (build command, publish dir, functions dir) viene de `netlify.toml`, no
 - `dr_garcia` / `vet123` (rol: veterinario)
 - `recepcion` / `rec123` (rol: recepcionista)
 
-### Si querés persistencia real
-
-Migrar `src/config/db.js` a Turso (LibSQL) o Postgres (Neon/Supabase). El resto del código no cambia: los models ya usan prepared statements con API sync, compatible con `@libsql/client`.
+> **Importante:** la `service_role` key tiene permisos totales sobre la DB y bypassea RLS. Nunca la metas en frontend ni la commitees. Vive solo en el `.env` local (ignorado por git) y en las variables de entorno de Netlify.

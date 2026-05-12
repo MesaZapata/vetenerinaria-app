@@ -13,7 +13,7 @@
     "ejs",
     "express-ejs-layouts",
     "cookie-session",
-    "better-sqlite3",
+    "@supabase/supabase-js",
     "bcryptjs",
     "morgan",
     "serverless-http"

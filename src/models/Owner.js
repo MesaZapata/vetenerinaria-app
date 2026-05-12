@@ -1,8 +1,14 @@
-const db = require('../config/db');
+const supabase = require('../config/db');
 
 const Owner = {
-    findAll() {
-        return db.prepare('SELECT * FROM owners').all();
+    async findAll() {
+        const { data, error } = await supabase
+            .from('owners')
+            .select('*')
+            .order('id', { ascending: true });
+
+        if (error) throw error;
+        return data;
     }
 };
 

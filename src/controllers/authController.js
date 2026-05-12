@@ -8,7 +8,7 @@ exports.getLogin = (req, res) => {
     res.render('login', { title: 'Iniciar Sesión', error: null });
 };
 
-exports.postLogin = (req, res) => {
+exports.postLogin = async (req, res) => {
     const { username, password } = req.body;
 
     if (!username || !password) {
@@ -16,7 +16,7 @@ exports.postLogin = (req, res) => {
     }
 
     try {
-        const user = User.findByUsername(username);
+        const user = await User.findByUsername(username);
 
         if (!user || !bcrypt.compareSync(password, user.password)) {
             return res.render('login', { title: 'Iniciar Sesión', error: 'Usuario o contraseña incorrectos.' });

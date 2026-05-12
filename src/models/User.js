@@ -1,8 +1,15 @@
-const db = require('../config/db');
+const supabase = require('../config/db');
 
 const User = {
-    findByUsername(username) {
-        return db.prepare('SELECT * FROM users WHERE username = ?').get(username);
+    async findByUsername(username) {
+        const { data, error } = await supabase
+            .from('users')
+            .select('*')
+            .eq('username', username)
+            .maybeSingle();
+
+        if (error) throw error;
+        return data;
     }
 };
 

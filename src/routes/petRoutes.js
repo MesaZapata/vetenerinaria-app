@@ -1,9 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const petController = require('../controllers/petController');
-const { isVeterinario } = require('../middleware/auth');
+const { isAuthenticated, isVeterinario } = require('../middleware/auth');
 
-// Solo veterinarios/admin pueden ver expedientes médicos
+// Crear mascotas: cualquier usuario autenticado (recepción, vet, admin)
+router.get('/pets/new', isAuthenticated, petController.getNewPetForm);
+router.post('/pets/new', isAuthenticated, petController.createPet);
+
+// Ver expedientes / historial: solo veterinario y admin
 router.get('/pets', isVeterinario, petController.listPets);
 router.get('/pets/:id/history', isVeterinario, petController.getHistory);
 
