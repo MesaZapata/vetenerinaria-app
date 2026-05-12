@@ -1,6 +1,6 @@
 ## Local
 
-1. Tener Node.js LTS (20.x).
+1. Tener Node.js LTS (22.x).
 2. `npm install`
 3. Crear archivo `.env` en la raíz con:
    ```
